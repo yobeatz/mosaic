@@ -12,7 +12,7 @@ import random
 import edges, guides, tiles, convex, coloring, plotting
 
 # Select filename of input image
-fname = '' # let empty for test image
+fname = r'' # let empty for test image
 
 
 # Parameters
@@ -30,7 +30,7 @@ COLOR_SCHEMA = ['nilotic',] # leave empty to plot all available or choose from '
 # choose which image to plot
 plot_list = [
     #'original',
-    'edges', # CAN BE HELPFUL FOR ADJUSTING GAUSS
+    'edges', # CAN BE HELPFUL FOR ADJUSTING GAUSS PARAMETER
     #'distances',
     #'guidelines',
     #'gradient',
