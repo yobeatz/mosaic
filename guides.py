@@ -143,7 +143,7 @@ if __name__ == '__main__':
     import edges
     img_edges = edges.edges_diblasi(img)
     img_edges = edges.edges_hed(img, gauss=0)
-    chains, angles_0to180, stages = chains_and_angles(img_edges, half_tile=10)
+    chains, angles_0to180 = chains_and_angles(img_edges, half_tile=10)
 
 
 
