@@ -14,10 +14,11 @@ def fit_in_polygon(p, nearby_polygons):
         p = p.difference(p_there)
     # only keep largest part if polygon consists of multiple fragments:
     if p.geom_type=='MultiPolygon':
-        i_largest = np.argmax([p_i.area for p_i in p])
-        p = p[i_largest]
+        print(p.geoms)
+        i_largest = np.argmax([p_i.area for p_i in p.geoms])
+        p = p.geoms[i_largest]
     # remove pathologic polygons with holes (rare event):
-    if p.type not in ['MultiLineString','LineString', 'GeometryCollection']:
+    if p.geom_type not in ['MultiLineString','LineString', 'GeometryCollection']:
         if p.interiors: # check for attribute interiors if accessible
             p = Polygon(list(p.exterior.coords))
     return p
@@ -132,8 +133,8 @@ def place_tiles_into_gaps(polygons, filler_chains, half_tile, A0, plot=[]):
                     p = p.difference(p_vorhanden.buffer(0.1)) # => remove overlap
             # keep only largest fragment if more than one exists
             if p.geom_type=='MultiPolygon':
-                i_largest = np.argmax([p_i.area for p_i in p])
-                p = p[i_largest]
+                i_largest = np.argmax([p_i.area for p_i in p.geoms])
+                p = p.geoms[i_largest]
             if p.area >= 0.05*A0 and p.geom_type=='Polygon': # sort out very small tiles
                 polygons += [p]
                 preselected_nearby_polygons += [p]
@@ -187,15 +188,15 @@ def repair_tiles(polygons):
     # remove or correct strange polygons
     polygons_new = []
     for p in polygons:
-        if p.type == 'MultiPolygon':
-            for pp in p:
+        if p.geom_type == 'MultiPolygon':
+            for pp in p.geoms:
                 polygons_new += [pp]
         else:
             polygons_new += [p]
     
     polygons_new2 = []
     for p in polygons_new:
-        if p.exterior.type == 'LinearRing':
+        if p.exterior.geom_type == 'LinearRing':
             polygons_new2 += [p]
     
     return polygons_new2

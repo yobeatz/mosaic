@@ -64,7 +64,7 @@ else:
     raise ValueError('Parameter for edge detection mode not understood.')
 
 
-if WITH_FRAME: 
+if WITH_FRAME:
     img_edges[0,:]=1; img_edges[-1,:]=1; img_edges[:,0]=1; img_edges[:,-1]=1
 
 
@@ -84,20 +84,20 @@ polygons_convex = convex.make_convex(polygons_all, half_tile, A0) if MAKE_CONVEX
 
 # make polygons smaller, remove or correct strange polygons, simplify and drop very small polygons
 polygons_post = tiles.irregular_shrink(polygons_convex, half_tile)
-polygons_post = tiles.repair_tiles(polygons_post) 
+polygons_post = tiles.repair_tiles(polygons_post)
 polygons_post = tiles.reduce_edge_count(polygons_post, half_tile)
 polygons_post = tiles.drop_small_tiles(polygons_post, A0)
 
 if 'final' in plot_list:
     # copy colors from original image
     colors = coloring.colors_from_original(polygons_post, img0, method='average')
-    
+
     t0 = time.time()
     svg = plotting.draw_tiles(polygons_post, colors, h,w, background_brightness=0.2, return_svg=False, chains=None)
     if svg:
         with open("output.svg", "w") as fn:
             fn.write(svg)
-    print ('Final plot / saving:', f'{time.time()-t0:.1f}s') 
+    print ('Final plot / saving:', f'{time.time()-t0:.1f}s')
 
 if 'final_recolored' in plot_list:
     color_dict = coloring.load_colors()
@@ -113,27 +113,3 @@ if 'statistics' in plot_list:
 
 print (f'Total calculation time: {time.strftime("%M min %S s", time.gmtime((time.time()-t_start)))}' ) # sek->min:sek
 print ('Final number of tiles:', len(polygons_post))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
