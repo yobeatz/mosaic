@@ -58,17 +58,17 @@ def simple_concave_zu_convex(p, half_tile, A0, richtung=-1):
         counter += 1
         p = concave_list.pop()
         p_points = MultiPoint(p.exterior.coords)
-        concave_points = [i for i,point in enumerate(p_points) if p.convex_hull.contains(point)]
+        concave_points = [i for i,point in enumerate(p_points.geoms) if p.convex_hull.contains(point)]
         # does not find points when polygon has hole (i.e. has interiors)
         if len(concave_points) == 0:
             print ('Could not convert tile to convex. Should not happen :-(')
             return False, []
         i_krit = concave_points[0]
-        xa,ya = p_points[i_krit].coords[0]
-        xb,yb = p_points[i_krit+richtung].coords[0] # -1 or +1 can be used
+        xa,ya = p_points.geoms[i_krit].coords[0]
+        xb,yb = p_points.geoms[i_krit+richtung].coords[0] # -1 or +1 can be used
         angle_of_cut_line = np.arctan2(xa-xb, ya-yb)*180/np.pi
         cut_line = LineString([(xa,ya-half_tile*4),(xa,yb+half_tile*4)])
-        cut_line = affinity.rotate(cut_line, -angle_of_cut_line, origin=p_points[i_krit])
+        cut_line = affinity.rotate(cut_line, -angle_of_cut_line, origin=p_points.geoms[i_krit])
         try:
             pp = p.difference(cut_line.buffer(0.2)) # remark: shapely.split() is not useful
         except: # rarely: TopologicalError: This operation could not be performed. Reason: unknown
@@ -80,7 +80,7 @@ def simple_concave_zu_convex(p, half_tile, A0, richtung=-1):
         if counter>5:
             success = False
             break
-        for ppi in pp:
+        for ppi in pp.geoms:
             if ppi.is_valid == False or ppi.area<0.05*A0:
                 continue
             if not is_convex(ppi):

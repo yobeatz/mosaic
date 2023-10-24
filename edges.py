@@ -105,7 +105,8 @@ def hed_edges(image):
 def edges_hed(img, gauss=None, plot=[]):
 
     if gauss:
-        img = filters.gaussian(img, sigma=16, truncate=gauss/16, multichannel=True)
+        img = filters.gaussian(img, sigma=16, truncate=gauss/16, channel_axis=3)
+        #img = filters.gaussian(img, sigma=16, truncate=gauss/16, multichannel=True)
     
     img = img/np.amax(img)*255
     img = img.astype(np.uint8)    
