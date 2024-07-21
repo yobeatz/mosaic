@@ -127,6 +127,28 @@ else:
     print(f"File {svg_path} does not exist.")
 
 
+import cairosvg
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+def convert_svg_to_png(svg_file, png_file):
+    cairosvg.svg2png(url=svg_file, write_to=png_file)
+
+def display_image(image_file):
+    img = mpimg.imread(image_file)
+    plt.imshow(img)
+    plt.axis('off')  # Hide axes
+    plt.show()
+
+# Save the SVG to PNG
+png_path = "output.png"
+convert_svg_to_png("output.svg", png_path)
+
+# Display the PNG image
+display_image(png_path)
+
+
+
 
 
 
