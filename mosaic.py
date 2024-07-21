@@ -114,6 +114,19 @@ if 'statistics' in plot_list:
 print (f'Total calculation time: {time.strftime("%M min %S s", time.gmtime((time.time()-t_start)))}' ) # sek->min:sek
 print ('Final number of tiles:', len(polygons_post))
 
+import webbrowser
+import os
+
+# Define the path to the SVG file
+svg_path = "output.svg"
+
+# Open the SVG file in the default web browser
+if os.path.isfile(svg_path):
+    webbrowser.open(svg_path)
+else:
+    print(f"File {svg_path} does not exist.")
+
+
 
 
 
