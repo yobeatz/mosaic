@@ -12,7 +12,7 @@ import random
 import edges, guides, tiles, convex, coloring, plotting
 
 # Select filename of input image
-fname = r'' # let empty for test image
+fname = r'cat.jpeg' # let empty for test image
 
 
 # Parameters
